@@ -5,7 +5,8 @@ format:
    self-contained: true
    code-fold: true
    toc: true
-   toc-location: "left"
+   toc-location: left
+   theme: quartz
 ---
 
 ```{r}

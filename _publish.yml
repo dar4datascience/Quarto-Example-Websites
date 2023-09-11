@@ -1,0 +1,4 @@
+- source: Quarto Example Websites.qmd
+  quarto-pub:
+    - id: ea343504-2538-471f-a768-878698286f35
+      url: 'https://dar4ds.quarto.pub/quarto-example-image-reels'

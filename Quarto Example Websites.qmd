@@ -133,6 +133,10 @@ list_of_gif <- fs::dir_ls(
   glob = "*.gif",
   recurse = TRUE
 )
+# list_of_gif <- c("https://github.com/dar4datascience/Quarto-Example-Websites/blob/master/Site%20Image%20Reels%20Assets/gifs/envelope1.gif",
+#                  "https://github.com/dar4datascience/Quarto-Example-Websites/blob/master/Site%20Image%20Reels%20Assets/gifs/envelope2.gif",
+#                  "https://github.com/dar4datascience/Quarto-Example-Websites/blob/master/Site%20Image%20Reels%20Assets/gifs/envelope3.gif",
+#                  "Site Image Reels Assets/gifs/envelope1.gif")
 
   card(
     card_header("Made with R"),

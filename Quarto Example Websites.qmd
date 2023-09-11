@@ -1,0 +1,159 @@
+---
+title: "Quarto Example Image Reels"
+format:
+  html:
+   self-contained: true
+   code-fold: true
+   toc: true
+   toc-location: "left"
+---
+
+```{r}
+pacman::p_load(slickR,
+               magick,
+               googledrive,
+               purrr,
+               fs,
+               bslib)
+```
+
+## The Adventure begins
+
+*Contents of envelope #1:*
+
+```{r}
+newlogo <- image_scale(image_read("https://jeroen.github.io/images/Rlogo.png"))
+oldlogo <- image_scale(image_read("https://jeroen.github.io/images/Rlogo-old.png"))
+image_resize(c(oldlogo, newlogo), '200x150!') %>%
+  image_background('white') %>%
+  image_morph() %>%
+  image_animate(optimize = TRUE)
+```
+
+```{r}
+# Download earth gif and make it a bit smaller for vignette
+earth <- image_read("https://jeroen.github.io/images/earth.gif") %>%
+  image_scale("200x") %>%
+  image_quantize(128)
+
+earth
+```
+
+```{r}
+rev(earth) %>% 
+  image_flip() %>% 
+  image_annotate("meanwhile in Australia", size = 20, color = "white")
+```
+
+```{r}
+# Foreground image
+banana <- image_read("https://jeroen.github.io/images/banana.gif")
+banana <- image_scale(banana, "150")
+image_info(banana)
+
+# Background image
+background <- image_background(image_scale(logo, "200"), "white", flatten = TRUE)
+
+# Combine and flatten frames
+frames <- image_composite(background, banana, offset = "+70+30")
+
+# Turn frames into animation
+animation <- image_animate(frames, fps = 10, optimize = TRUE)
+print(animation)
+```
+
+## The Envelope {#sec-the-envelope}
+
+```{r eval=FALSE}
+
+create_animation <- function(video_path, output_fps = 10, optimize = TRUE, output_path = "output.gif") {
+  # Read the video
+  video <- image_read_video(video_path)
+  
+  # Turn frames into animation
+  animation <- image_animate(video, fps = output_fps, optimize = optimize)
+  
+  # Print the animation
+  print(animation)
+  
+  # Write the animation to a GIF file
+  image_write(animation, output_path)
+  
+  cat("Animation saved as", output_path, "\n")
+}
+
+# Usage
+demo_video_path <- "Site Image Reels Assets/PXL_20230911_004506245.TS~2.mp4"
+create_animation(demo_video_path, output_path = "output.gif")
+
+
+```
+
+```{r eval=FALSE}
+list_of_videos <- fs::dir_ls(
+  'Site Image Reels Assets',
+  glob = "*.mp4"
+)
+
+# Vector of video filenames
+envelope_loop_1_to_4 <- c(
+  "envelope1.gif",
+  "envelope2.gif",
+  "envelope3.gif",
+  "envelope4.gif"
+)
+
+# Iterate over the vector and create animations
+purrr::walk2(list_of_videos,
+             envelope_loop_1_to_4,
+             \(x,y) create_animation(x,
+                                     output_path = 
+                                       paste0('Site Image Reels Assets/gifs/',
+                                              y)
+             )
+             )
+```
+
+## Carousel
+
+[Chonk: The Quest for Eternal Wisdom Chonk](#sec-chonk-the-quest-for-eternal-wisdom-chonk)
+
+       
+::: {.callout-caution collapse="true"}
+## Expand To Learn About Collapse
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <img src="https://cdn.britannica.com/25/172925-050-DC7E2298/black-cat-back.jpg" alt="Centered Image">
+</div>
+:::
+
+```{r}
+list_of_gif <- fs::dir_ls(
+  'Site Image Reels Assets',
+  glob = "*.gif",
+  recurse = TRUE
+)
+
+  card(
+    card_header("Made with R"),
+    slickR(obj = list_of_gif,
+           height = 400,
+           objLinks = rep('Quarto%20Example%20Websites.html#sec-chonk-the-quest-for-eternal-wisdom-chonk',
+                          length(list_of_gif)),
+           width = "95%") + 
+  settings(dots = TRUE, autoplay = TRUE)
+  )
+
+```
+
+## 
+
+## Chonk: The Enigmatic Discovery Chonk
+
+## Chonk: Journey Through the Cosmos Chonk
+
+## Chonk: Secrets of the Lost Kingdom Chonk
+
+## Chonk: Tales from the Haunted Forest Chonk
+
+## Chonk: The Quest for Eternal Wisdom Chonk {#sec-chonk-the-quest-for-eternal-wisdom-chonk}
